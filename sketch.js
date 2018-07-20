@@ -7,13 +7,15 @@ let toLeft, toRight, toBottom; //This has to do with the rows and columns of the
 let bulletFired, bulletX, bulletY;
 let theme;
 let gameMode = false;
+let laserS;
 
 function preload(){
     alien = loadImage("Graphics/Alien1.png");
     playerShip = loadImage("Graphics/Player.png");
-    theme = loadSound("Sounds/newTheme.mp3.mp3");
+    theme = loadSound("Sounds/newTheme.mp3");
     laser = loadImage("Graphics/Lasers.png");
     SpaceZ = loadImage("Graphics/Invader.png");
+    laserS = loadSound("Sounds/shootingEffect.mp3");
 }
 
 function setup () {
@@ -72,6 +74,7 @@ function keyPressed() {
     gameMode = true;
   }
   if(keyCode == 32){
+    laserS.play();
     bulletX = playerX + 36;
     bulletY = playerY - 10;   
 }
