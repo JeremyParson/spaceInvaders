@@ -1,15 +1,17 @@
 let alien, alienX, alienY, alienColumn, newFirstColumn, newLastColumn;
-let playerX, playerY, playerShip;//player related stuff
+let playerX, playerY, playerShip, laser;//player related stuff
 let alive;//this is the array of aliens
 let spaceLives = 3; //?
 let moveLeft = true; //This dictates if the block of aliens is moving left or not
 let toLeft, toRight, toBottom; //This has to do with the rows and columns of the alien block.
 let bulletFired, bulletX, bulletY;
-
+let theme;
 
 function preload(){
     alien = loadImage("Graphics/Alien1.png");
     playerShip = loadImage("Graphics/Player.png");
+    theme = loadSound("Sounds/theme.mp3");
+    laser = loadImage("Graphics/Lasers.png");
 }
 
 function setup () {
@@ -22,6 +24,7 @@ function setup () {
   bulletFired = false;
   setUpAliens();
   newLastColumn = alive[0].length - 1;
+  theme.play();
 
     playerX = 350;
     playerY = 650;
@@ -38,7 +41,7 @@ function draw () {
   createAlienBLock();
   alienBlockMove();
   reDeclare();
-  playerMovement()
+  playerMovement();
   image(playerShip, playerX, playerY);
 }
 
