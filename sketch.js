@@ -36,7 +36,7 @@ function setup () {
 }
 
 function draw () {
-    if(!theme.isPlaying){
+    if(!theme.isPlaying()){
 theme.play();
     }
     rectMode(CORNER);
@@ -98,14 +98,14 @@ function createAlienBLock () {
 
 function alienBlockMove(){
     if(moveLeft == true){
-        if(toLeft < 60){
+        if(toLeft < 5){
             moveLeft = false;
             moveDown();
         }else{
             alienX -= .9;
         }
     }else{
-        if(toRight > 610){
+        if(toRight > 660){
             moveLeft = true;
             moveDown();
         }else{
