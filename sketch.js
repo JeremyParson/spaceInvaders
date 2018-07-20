@@ -10,7 +10,7 @@ let theme;
 function preload(){
     alien = loadImage("Graphics/Alien1.png");
     playerShip = loadImage("Graphics/Player.png");
-    theme = loadSound("Sounds/theme.mp3");
+    theme = loadSound("Sounds/newTheme.mp3.mp3");
     laser = loadImage("Graphics/Lasers.png");
 }
 
@@ -36,6 +36,9 @@ function setup () {
 }
 
 function draw () {
+    if(!theme.isPlaying){
+theme.play();
+    }
     rectMode(CORNER);
     background(30);
   createAlienBLock();
@@ -51,6 +54,12 @@ function playerMovement(){
       }
     if(keyIsDown(LEFT_ARROW) && playerX > -15){
           playerX -= 5;
+      }
+    if(keyIsDown(UP_ARROW)){
+          playerY -= 5;
+      }
+      if(keyIsDown(DOWN_ARROW)){
+          playerY += 5;
       }
     image(playerShip, playerX, playerY);
   }
