@@ -8,6 +8,7 @@ let bulletFired, bulletX, bulletY;
 let theme;
 let gameMode = false;
 let laserS;
+let score;
 
 function preload(){
     alien = loadImage("Graphics/Alien1.png");
@@ -21,7 +22,7 @@ function preload(){
 function setup () {
   createCanvas(700 , 700);
   background(30);
-  alienColumn = 5;//Sets how many aliens will be in the column
+  alienColumn = 10;//Sets how many aliens will be in the column
   alive = new Array(alienColumn);
   alienX = 20; alienY = 20;//Sets the starting posions of the alien block starting from the top right
   newFirstColumn = 0;
@@ -29,6 +30,7 @@ function setup () {
   setUpAliens();
   newLastColumn = alive[0].length - 1;
   theme.play();
+  score = 0;
 
     playerX = 350;
     playerY = 650;
@@ -36,7 +38,6 @@ function setup () {
     toLeft = alienX + (newFirstColumn + 1) * 40;
     toRight = alienX + (newLastColumn + 1) * 40;
     toBottom = alienY + (alive[0].length + 1) * 40;
-  
 }
 
 function draw () {
@@ -65,6 +66,7 @@ function draw () {
               createAlienBLock();
               bulletY -= 5;
               checkHit();
+              text(score,50,50)
     }
     
 }
@@ -99,7 +101,7 @@ function playerMovement(){
 
 function setUpAliens () {
   for (let x = 0; x < alive.length; x++) {
-    alive[x] = Array(10);
+    alive[x] = Array(5);
     for (let y = 0; y < alive[x].length; y++) {
       alive[x][y] = true;
       
@@ -116,9 +118,9 @@ function createAlienBLock () {
   let row = 0;
   let column = 0;
   for (let x = 0; x < alive.length; x++) {
-    for (let y = 0; y < alive[x].length; y++) {
+    for (let y = 1; y < alive[x].length; y++) {
       if (alive[x][y] == true) {
-        image(alien, alienX + row, alienY + column);
+        image(alien, alienX + column, alienY + row);
         row += 40;
       }else{
           row += 40;
@@ -131,14 +133,14 @@ function createAlienBLock () {
 
 function alienBlockMove(){
     if(moveLeft == true){
-        if(toLeft < 5){
+        if(toLeft < 30){
             moveLeft = false;
             moveDown();
         }else{
             alienX -= .9;
         }
     }else{
-        if(toRight > 660){
+        if(toRight > 480){
             moveLeft = true;
             moveDown();
         }else{
@@ -189,11 +191,21 @@ function moveDown(){
       let arrX = 0;
       let arrY = 0;
       arrX = Math.floor((bulletX  - alienX) / 40);
-        arrY = Math.floor((bulletY - alienY) / 40);
+        arrY = Math.floor((bulletY - alienY) / 30);
         console.log(arrX + ":" + arrY);
-      if(bulletX > alienX && bulletX < alienX + 360 && bulletY > alienY && bulletY < alienY + 300){
-          if(arrX < alive.length && arrY < alive[0].length ){
+      if(bulletX > alienX && bulletX < toRight + 460 && bulletY > alienY && bulletY < toBottom){
+          if(arrX < alive.length && arrY < alive[0].length && arrX > 0 && arrY > 0){
+              if(alive[arrX][arrY] != false){
           alive[arrX][arrY] = false;
+          bulletX = 90000;
+          score += 1000;
+              }
           }
+      }
+  }
+
+  function win(){
+      if(score > 40000){
+          gameMode = 2;
       }
   }
