@@ -62,7 +62,7 @@ function draw () {
               image(laser, bulletX, bulletY);
               createAlienBLock();
               bulletY -= 5;
-
+              checkHit();
     }
     
 }
@@ -179,4 +179,18 @@ function moveDown(){
     toLeft = alienX + (newFirstColumn + 1) * 40;
     toRight = alienX + (newLastColumn + 1) * 40;
     console.log(Math.floor(toLeft) + "->" + Math.floor(toRight) + ": Difference :" + Math.floor(toRight - toLeft));
+  }
+
+
+  function checkHit(){
+      let arrX = 0;
+      let arrY = 0;
+      arrX = Math.floor((bulletX  - alienX) / 40);
+        arrY = Math.floor((bulletY - alienY) / 40);
+        console.log(arrX + ":" + arrY);
+      if(bulletX > alienX && bulletX < alienX + 360 && bulletY > alienY && bulletY < alienY + 300){
+          if(arrX < alive.length && arrY < alive[0].length ){
+          alive[arrX][arrY] = false;
+          }
+      }
   }
