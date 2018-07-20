@@ -1,25 +1,28 @@
 let alien, alienX, alienY, alienColumn, newFirstColumn, newLastColumn;
-let playerX, playerY, player;
-let alive;
-let spaceLives = 3;
-let moveLeft = true;
-let toLeft, toRight, toBottom;
+let playerX, playerY, playerShip;//player related stuff
+let alive;//this is the array of aliens
+let spaceLives = 3; //?
+let moveLeft = true; //This dictates if the block of aliens is moving left or not
+let toLeft, toRight, toBottom; //This has to do with the rows and columns of the alien block.
 let bulletFired, bulletX, bulletY;
 
+
+function preload(){
+    alien = loadImage("Graphics/Alien1.png");
+    playerShip = loadImage("Graphics/Player.png");
+}
 
 function setup () {
   createCanvas(700 , 700);
   background(30);
-  alienColumn = 5;
+  alienColumn = 5;//Sets how many aliens will be in the column
   alive = new Array(alienColumn);
-  alienX = 20; alienY = 20;
+  alienX = 20; alienY = 20;//Sets the starting posions of the alien block starting from the top right
   newFirstColumn = 0;
   bulletFired = false;
   setUpAliens();
   newLastColumn = alive[0].length - 1;
 
-  alien = loadImage('Graphics/Alien1.png');
-  player = loadImage('Graphics/Player.png');
     playerX = 350;
     playerY = 650;
 
@@ -34,22 +37,28 @@ function draw () {
     background(30);
   createAlienBLock();
   alienBlockMove();
-  checkArray();
   reDeclare();
-  image(player, playerX, playerY);
-  alive[3][9] = false;
-  alive[0][0] = false;
-  
+  playerMovement()
+  image(playerShip, playerX, playerY);
 }
 
-function keyPressed () {
-}
+function playerMovement(){
+    if(keyIsDown(RIGHT_ARROW) && playerX < 640){
+          playerX += 5;
+      }
+    if(keyIsDown(LEFT_ARROW) && playerX > -15){
+          playerX -= 5;
+      }
+    image(playerShip, playerX, playerY);
+  }
+
 
 function setUpAliens () {
   for (let x = 0; x < alive.length; x++) {
     alive[x] = Array(10);
     for (let y = 0; y < alive[x].length; y++) {
       alive[x][y] = true;
+      
     }
   }
 
@@ -99,28 +108,33 @@ function moveDown(){
 
 
 
-  function checkArray(){
-      let d = 0;
-        for(let y = 0; y < alive[newFirstColumn].length; y++){
-            if(alive[newFirstColumn][y] == false){
-                d++;
-                if(d == alive[newFirstColumn].length){
-                    newFirstColumn++;
-                }
-            }
-        }
-        d = 0;
-        for(let x = 0; x < alive[newLastColumn]; x++){
-            if(alive[newLastColumn][x] == false){
-                d++;
-                if(d == alive[newLastColumn].length){
-                    newLastColumn--;
-                }
-            }
-        }
-  }
+//   function checkArray(){
+//       let d = 0;
+//         for(let y = 0; y < alive[newFirstColumn].length; y++){
+//             if(alive[newFirstColumn] == false){
+//                 d++;
+//                 console.log(d);
+//             }
+//             if(d == alive[newFirstColumn].length){
+//                 newFirstColumn += 1;
+//             }
+//         }
+        
+//         d = 0;
+//         for(let x = 0; x < alive[newLastColumn]; x++){
+//             if(alive[newLastColumn] == false){
+//                 d++;
+//                 console.log(d);
+//             }
+//             if(d == alive[newLastColumn].length){
+//                 newLastColumn -= 1;
+//             }
+//         }
+      
+//   }
 
   function reDeclare(){
     toLeft = alienX + (newFirstColumn + 1) * 40;
     toRight = alienX + (newLastColumn + 1) * 40;
+    console.log(Math.floor(toLeft) + "->" + Math.floor(toRight) + ": Difference :" + Math.floor(toRight - toLeft));
   }
