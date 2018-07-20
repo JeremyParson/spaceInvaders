@@ -13,7 +13,7 @@ function preload(){
     playerShip = loadImage("Graphics/Player.png");
     theme = loadSound("Sounds/newTheme.mp3.mp3");
     laser = loadImage("Graphics/Lasers.png");
-    SpaceZ = loadImage("Graphics/Invader.png")
+    SpaceZ = loadImage("Graphics/Invader.png");
 }
 
 function setup () {
@@ -55,11 +55,14 @@ function draw () {
                 }
                 rectMode(CORNER);
                 background(30);
-              createAlienBLock();
               alienBlockMove();
               reDeclare();
               playerMovement();
               image(playerShip, playerX, playerY);
+              image(laser, bulletX, bulletY);
+              createAlienBLock();
+              bulletY -= 5;
+
     }
     
 }
@@ -68,6 +71,10 @@ function keyPressed() {
     if (keyCode === 13) {
     gameMode = true;
   }
+  if(keyCode == 32){
+    bulletX = playerX + 36;
+    bulletY = playerY - 10;   
+}
 }
 
 function playerMovement(){
@@ -102,6 +109,7 @@ function setUpAliens () {
 }
 
 function createAlienBLock () {
+    imageMode(CORNER);
   let row = 0;
   let column = 0;
   for (let x = 0; x < alive.length; x++) {
