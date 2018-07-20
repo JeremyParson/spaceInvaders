@@ -6,12 +6,14 @@ let moveLeft = true; //This dictates if the block of aliens is moving left or no
 let toLeft, toRight, toBottom; //This has to do with the rows and columns of the alien block.
 let bulletFired, bulletX, bulletY;
 let theme;
+let gameMode = false;
 
 function preload(){
     alien = loadImage("Graphics/Alien1.png");
     playerShip = loadImage("Graphics/Player.png");
     theme = loadSound("Sounds/newTheme.mp3.mp3");
     laser = loadImage("Graphics/Lasers.png");
+    SpaceZ = loadImage("Graphics/Invader.png")
 }
 
 function setup () {
@@ -36,16 +38,36 @@ function setup () {
 }
 
 function draw () {
-    if(!theme.isPlaying()){
-theme.play();
+    if(!gameMode){ 
+        stroke("White");
+        strokeWeight(8);
+        fill(0)
+        rect(0,0,600,600)   
+        image(SpaceZ, 150,100,250,250)
+        noStroke()
+        rect(200,250,150,150)
+        rect(200,250,50,30)
+        fill(255);
+        text("Click to start game.",250,310);
+    }else{
+        if(!theme.isPlaying()){
+            theme.play();
+                }
+                rectMode(CORNER);
+                background(30);
+              createAlienBLock();
+              alienBlockMove();
+              reDeclare();
+              playerMovement();
+              image(playerShip, playerX, playerY);
     }
-    rectMode(CORNER);
-    background(30);
-  createAlienBLock();
-  alienBlockMove();
-  reDeclare();
-  playerMovement();
-  image(playerShip, playerX, playerY);
+    
+}
+
+function keyPressed() {
+    if (keyCode === 13) {
+    gameMode = true;
+  }
 }
 
 function playerMovement(){
